@@ -5,6 +5,7 @@ import 'home/function_type_Widget.dart';
 import 'home/department_type_widget.dart';
 import 'package:dio/dio.dart';
 import 'register/hospitalViewWidget.dart';
+import 'register/doctor_list_widget.dart';
 import 'dart:convert';
 
 class homeWidget extends StatelessWidget {
@@ -58,9 +59,8 @@ class content extends StatelessWidget{
           },
         ),
         department_type_widget(
-          callback: (index){
-            Navigator.push(context, new MaterialPageRoute(builder: (context)=>hospitalViewWidget()));
-            print("======$index=======----");
+          callback: (disease){
+            Navigator.push(context, new MaterialPageRoute(builder: (context)=>doctor_list_widget(disease)));
           },
         ),
         Container(
@@ -91,9 +91,7 @@ class _bannerWidgetState extends State<bannerWidget> {
   void getDepartment() async{
     Dio request = Dio();
     Response data = await request.get("https://www.91985.com/users/api/app/banner.do");
-    print(data.data.toString());
     Map map = json.decode(data.data.toString());
-    print(map);
     if (mounted) {
       setState(() {
         if (map["code"] == 0) {
@@ -150,7 +148,6 @@ class _hospitalListViewState extends State<hospitalListView> {
   void getHospitalList() async{
     Dio request = Dio();
     Response data = await request.get("https://www.91985.com/users/api/doctor/hotHospital.do");
-    print(data.data.toString());
     Map map = json.decode(data.data.toString());;
     setState(() {
       if(map["code"] == 0){
@@ -165,13 +162,17 @@ class _hospitalListViewState extends State<hospitalListView> {
             getHospitalItem,
             childCount: hospitalList.length,
         ),
-        itemExtent:80.0
+        itemExtent:80.0,
     );
     return listView;
   }
 
   Widget getHospitalItem(BuildContext context, int index){
-    return hospital_item_widget(hospitalList[index] as Map);
+    var hospitalItem =  hospital_item_widget(hospitalList[index] as Map,callback: (String hospitalId){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => hospitalViewWidget()));
+      },
+    );
+    return hospitalItem;
   }
 
 

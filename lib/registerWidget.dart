@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home/hospital_item_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'register/hospitalViewWidget.dart';
 import 'dart:convert';
 
 class registerWidget extends StatelessWidget {
@@ -13,14 +14,7 @@ class registerWidget extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
 
-      body: Container(
-        color: Color(0xfff5f5f5),
-        child: Column(
-          children: <Widget>[
-            hospitalListView(),
-          ],
-        ),
-      ),
+      body: hospitalListView(),
     );
     return _scaffold;
   }
@@ -34,7 +28,7 @@ class hospitalListView extends StatefulWidget {
 class _hospitalListViewState extends State<hospitalListView> {
   List hospitalList=new List();
   int pageIndex = 1;
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: true);
   void _onRefresh() async{
     this.pageIndex = 1;
     // monitor network fetch
@@ -48,18 +42,13 @@ class _hospitalListViewState extends State<hospitalListView> {
     // monitor network fetch
   }
 
-
   @override
   void initState() {
-    if(hospitalList.length == 0) {
-      getHospitalList();
-    }
     super.initState();
   }
   void getHospitalList() async{
     Dio request = Dio();
     Response data = await request.get("https://www.91985.com/users/api/doctor/getHospitalList.do?page=$pageIndex");
-    print(data.data.toString());
     Map map = json.decode(data.data.toString());
     setState(() {
       if(map["code"] == 0){
@@ -81,7 +70,11 @@ class _hospitalListViewState extends State<hospitalListView> {
 
     var _listView = ListView.builder(
       itemBuilder: (BuildContext context, int index){
-        return hospital_item_widget(hospitalList[index] as Map);
+        var hospitalItem =  hospital_item_widget(hospitalList[index] as Map,callback: (String hospitalId){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => hospitalViewWidget()));
+          },
+        );
+        return hospitalItem;
       },
       itemCount: hospitalList.length,
     );
@@ -97,13 +90,10 @@ class _hospitalListViewState extends State<hospitalListView> {
       child: _listView,
     );
 
-    var scroll = Container(
+    var scroll = Scrollbar(
       child: refresher,
-      height: 711,
+//      height: 711,
     );
-
-
-
     return scroll;
   }
 }

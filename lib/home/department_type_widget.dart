@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-typedef clickCallback = void Function(int index);
+typedef clickCallback = void Function(String disease);
 
 
 class department_type_widget extends StatelessWidget {
@@ -108,7 +108,7 @@ class department_item_Widget extends StatelessWidget {
     );
     var _supView = GestureDetector(
       onTap:(){
-        _callback(_index);
+        _callback(_title);
       },
       child: _view,
     );
