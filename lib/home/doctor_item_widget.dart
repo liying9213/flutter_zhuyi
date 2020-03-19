@@ -16,7 +16,9 @@ class doctor_item_widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 8,top: 4,bottom: 4),
+      width: double.infinity,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: (){
           _callback(_doctormap["id"].toString());
         },

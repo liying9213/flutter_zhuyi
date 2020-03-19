@@ -15,6 +15,7 @@ class hospital_item_widget extends StatelessWidget {
     var view = Container(
       padding: EdgeInsets.only(top: 10,bottom: 10,left: 16),
       child:GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: (){
           _callback(_hospitalMap["id"].toString());
         },
