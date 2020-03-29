@@ -54,7 +54,7 @@ class content extends StatelessWidget{
         bannerWidget(),
         function_type_Widget(
           callback: (index){
-            Navigator.push(context, new MaterialPageRoute(builder: (context)=>hospitalViewWidget()));
+//            Navigator.push(context, new MaterialPageRoute(builder: (context)=>hospitalViewWidget()));
             print("======$index=======----");
           },
         ),
@@ -169,7 +169,7 @@ class _hospitalListViewState extends State<hospitalListView> {
 
   Widget getHospitalItem(BuildContext context, int index){
     var hospitalItem =  hospital_item_widget(hospitalList[index] as Map,callback: (String hospitalId){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => hospitalViewWidget()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => hospitalViewWidget(hospitalList[index])));
       },
     );
     return hospitalItem;

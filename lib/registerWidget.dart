@@ -71,7 +71,7 @@ class _hospitalListViewState extends State<hospitalListView> {
     var _listView = ListView.builder(
       itemBuilder: (BuildContext context, int index){
         var hospitalItem =  hospital_item_widget(hospitalList[index] as Map,callback: (String hospitalId){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => hospitalViewWidget()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => hospitalViewWidget(hospitalList[index])));
           },
         );
         return hospitalItem;

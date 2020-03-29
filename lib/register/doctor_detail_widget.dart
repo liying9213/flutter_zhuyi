@@ -5,10 +5,14 @@ class doctor_detail_widget extends StatelessWidget {
   Widget build(BuildContext context) {
     var view = Scaffold(
       appBar: AppBar(
-        title: Text("医生详情",style: TextStyle(color: Color(0xff333333),fontSize: 18.0),),
-        backgroundColor: Colors.white,
+        title: Text("医生详情",style: TextStyle(color: Color(0xffffffff),fontSize: 18.0),),
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Color(0xffffffff)), onPressed:(){
+          Navigator.pop(context);
+        }),
+        backgroundColor: Color(0xff45C45A),
         centerTitle: true,
       ),
+      body: null,
     );
     return view;
   }
